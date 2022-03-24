@@ -40,13 +40,16 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
   * [fortune随机名言](#fortune随机打印名言)
   * [ici查询单词](#ici查询单词)
   * [pandoc文档转换](#pandoc文档转换)
+  * [autojump快速跳转目录](#autojump)
   * [彩蛋](#彩蛋)
     * [asciiquarium水族馆](#asciiquarium水族馆)
   * [小游戏](#小游戏)
-    * [贪吃蛇](#贪吃蛇)
-    * [俄罗斯方块](#俄罗斯方块)
+    * [nsnake贪吃蛇](#nsnake贪吃蛇)
+    * [bastet俄罗斯方块](#bastet俄罗斯方块)
 * [日常用例](#日常用例)
   * [curl爬取数据](#curl爬取数据)
+    * [chrome技巧](#chrome技巧)
+    * [自动获取Cookie](#自动获取Cookie)
   * [预警监控](#预警监控)
   * [简易自动化部署](#简易自动化部署)
   * 
@@ -60,6 +63,7 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
 ### iTerm2
 iTerm2是mac终端的一个替代品，它的功能更多一些，比如我最常用到的两个功能: 终端下打开文件和分屏。当然最重要的功能还是它有solarized dark这个配色方案，比较好看。
 [安装地址](https://iterm2.com/)
+![](https://cookie.cdn.bcebos.com/iTerm2.gif)
 ### oh-my-zsh+agnoster
 ![](https://cookie.cdn.bcebos.com/oh-my-zsh.png)
 oh-my-zsh是一个github开源项目，它负责管理zsh里相关的一些配置, 简单来说就是维护~/.zshrc配置文件, 它内置了很多插件和主题，比如我们要用到的agnoster。
@@ -247,33 +251,43 @@ cal -y 2023
 # 某月
 cal -m 5
 ```
-
+![](https://cookie.cdn.bcebos.com/cal.gif)
 
 ### fortune随机打印名言
 
 
 ### ici查询单词
-一个同学使用金山磁盘api + python编写的快速查单词的工具，非常好用。[仓库地址](https://github.com/Flowerowl/ici)
+一个使用金山磁盘api + python编写的快速查单词的工具，非常好用。安装方式`pip install ici`, [仓库地址](https://github.com/Flowerowl/ici)
 如果有兴趣还可以扩充ici的功能，比如增加单词收藏、单词本等功能。
+![](https://cookie.cdn.bcebos.com/ici.gif)
 
 ### pandoc文档转换
 用于常用文档格式之间的转换。[仓库地址](https://github.com/jgm/pandoc)
 
 ```shell
-# 将ppt文件转换为pdf文件
 # 将markdown文件转换为ppt
 pandoc README.md -o README.html -s -t revealjs -V theme="white"
-
 ```
+### autojump快速跳转目录
+对已经访问过的目录，可以在Shell容错输入目录名来快速访问。[仓库地址](https://github.com/wting/autojump)
+![](https://cookie.cdn.bcebos.com/autojump.gif)
+
 
 ### 彩蛋
 有很多好看的彩蛋
 ##### asciiquarium水族馆
-mac下用brew安装 `brew install asciiquarium`
+还挺治愈的 `brew install asciiquarium`
+![](https://cookie.cdn.bcebos.com/asciiquarium.gif)
 
 ### 小游戏
-#### 贪吃蛇
-#### 俄罗斯方块
+[更多游戏](https://zhuanlan.zhihu.com/p/51904179)
+#### nsnake贪吃蛇
+`brew install nsnake` 
+![](https://cookie.cdn.bcebos.com/nsnake.gif)
+#### bastet俄罗斯方块
+`brew install bastet`
+![](https://cookie.cdn.bcebos.com/bastet.gif)
+
 
 
 ## 日常用例
