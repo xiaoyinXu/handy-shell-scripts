@@ -24,8 +24,8 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
         * [sed](#sed)
         * [grep](#grep)
         * [awk](#awk)
-      * [其它命令]()
-        * [tail]()
+      * [其它命令](#其它命令)
+        * [tail](#tail)
     * [进程]()
     * [网络](#网络)
     * [磁盘](#磁盘)
@@ -35,17 +35,21 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
     * [xargs](#xargs)
     * [alias](#alias)
 * [crontab定时任务](#crontab定时任务)
-* [有趣的用例]()
-  * [cal查询日历]()
-  * [fortune随机名言]()
-  * [ici查询单词]()
-  * [pandoc文档转换]()
-  * [彩蛋]()
-    * [水族馆]()
-  * [小游戏]()
-    * [贪吃蛇]()
-    * [俄罗斯方块]
-* [日常案例]()
+* [有趣的用例](#有趣的用例)
+  * [cal查询日历](#cal查询日历)
+  * [fortune随机名言](#fortune随机打印名言)
+  * [ici查询单词](#ici查询单词)
+  * [pandoc文档转换](#pandoc文档转换)
+  * [彩蛋](#彩蛋)
+    * [asciiquarium水族馆](#asciiquarium水族馆)
+  * [小游戏](#小游戏)
+    * [贪吃蛇](#贪吃蛇)
+    * [俄罗斯方块](#俄罗斯方块)
+* [日常用例](#日常用例)
+  * [curl爬取数据](#curl爬取数据)
+  * [预警监控](#预警监控)
+  * [简易自动化部署](#简易自动化部署)
+  * 
 
 
 
@@ -161,9 +165,11 @@ awk -F ',' '{print $2,$3}' 1.csv
 
 当然了，awk的定位其实是一种程序语言，它有很多强大的用法，这里就不展开讲了。
 
+#### 其它命令
+##### tail
 
-#### 命令组合
-##### 管道
+## 命令组合
+### 管道
 管道即piplines, 是由很多命令和'|'字符组成的命令组合，'|'左边命令的标准输出会作为'|'右边命令的标准输入。
 
 管道是我们组合命令的最常见的方式
@@ -180,7 +186,7 @@ git ls-files | grep -iE "\.java|\.scala" | xargs cat | grep -iEv "^$|^import|\s+
 
 ```
 
-##### xargs
+### xargs
 xargs也是组合命令的一种方式，它常搭配管道一起使用。上面已经提到，管道是上一个命令的标准输出作为下一个命令的标准输入，但是很多命令是不支持标准输入的，xargs就是用来解决这个问题的。
 那么什么是标准输出、标准输入呢？直接打印在控制台就是标准输出，从控制台读取就是标准输入。Shell里面的echo, Python里面的print, java里面的System.out.println都是标准输出。
 有一些Shell命令支持标准输入，比如cat、grep、awk、head、more、less等，直接的体现就是在Shell里面单独输入这些命令，Shell不会打印东西，而是等待用户的输入。
@@ -203,10 +209,10 @@ ls | grep '\.txt' |xargs cat
 find . -name "*.txt" | xargs rm -rf
 ```
 
-##### alias
+### alias
 alias即别名，类似于C/C++里的宏(Macro)。
 
-#### crontab定时任务
+## crontab定时任务
 crontab是一般类unix操作系统内置的单机定时任务程序，它帮助用户在指定的时间内执行相应的任务。
 cron表达式是用来描述时间的表达式，由"5个元素"构成, 分别为minute(分钟)、hour(小时)、day of month(某月的第几天)、month、day of week（每周几）
 对于一些其它的分布式调度框架，如quartz，它的cron表达式支持7个字符，比crontab的多一个second(秒), year(年), 其描述时间的功能更强大。
@@ -225,8 +231,8 @@ cron表达式是用来描述时间的表达式，由"5个元素"构成, 分别�
 比如用户要定义一个每天十二点整点发邮件的任务, 如果cron表达式写成了`* 12 * * *`那么代表12点的每一分钟(12:00、12:01、12:02...)都会去发送邮件，对于支持秒的调度框架，那么更是会形成邮件轰炸。
 
 
-#### 有趣的用例
-##### cal日历
+## 有趣的用例
+### cal查询日历
 cal用来打印日历，一般Shell都内置了这条命令。
 ```shell
 # 当前月
@@ -243,14 +249,14 @@ cal -m 5
 ```
 
 
-##### fortune随机打印名言
+### fortune随机打印名言
 
 
-##### ici查询单词
+### ici查询单词
 一个同学使用金山磁盘api + python编写的快速查单词的工具，非常好用。[仓库地址](https://github.com/Flowerowl/ici)
 如果有兴趣还可以扩充ici的功能，比如增加单词收藏、单词本等功能。
 
-##### pandoc文档转换
+### pandoc文档转换
 用于常用文档格式之间的转换。[仓库地址](https://github.com/jgm/pandoc)
 
 ```shell
@@ -260,10 +266,86 @@ pandoc README.md -o README.html -s -t revealjs -V theme="white"
 
 ```
 
-##### 彩蛋
+### 彩蛋
 有很多好看的彩蛋
-###### 水族馆
+##### asciiquarium水族馆
+mac下用brew安装 `brew install asciiquarium`
 
-#### 日常生活用例
-##### 简单的自动化部署
-##### 定时监控
+### 小游戏
+#### 贪吃蛇
+#### 俄罗斯方块
+
+
+## 日常用例
+### curl爬取数据
+curl是一个操作系统内置的命令，常用来发送http请求。对于日常浏览器里访问的数据，如果我们想做整合分析，就可以考虑用curl来"试水"。
+#### chrome技巧
+chrome里面的控制台里，网络-xhr里可以追踪浏览器发送到后端的api http请求，右键请求: copy as curl即可复制一段能直接在Shell里执行的curl脚本。
+---------插图-----------
+一些http数据请求往往是分页的，那么我们仅仅将分页参数进行微调就能获取相对全的数据。
+#### 自动获取Cookie
+很多数据获取是需要身份校验的，而Cookie则是身份校验里最常用的手段。当用户登陆完成某个网站后，服务器向用户浏览器返回set-cookie的response body, 
+浏览器将Cookie储存起来，当下次访问该网站时，自动携带对应的Cookie信息，那么后端服务器就知道访问用户是谁了，一般也就通过身份校验了。
+浏览器将Cookie持久化到了磁盘的某个文件里，这也就意味着我们一定能从本地的某个文件里获取到Cookie信息，并且我们可以将这个获取的方式自动化。
+。Cookie由多个key-value键值对组成，但是往往用于身份校验的键值对就这么一两个，以bilibili.com为例， SESSDATA即为bilibili身份检验唯一需要的key。
+下面提供一种基于python3自动获取Cookie的方案
+```shell
+# 安装browsercookie
+pip install browsercookie
+```
+
+下面演示获取bilili.com的Cookie
+```python
+# ~/get_bilibili_cookie.py
+import browsercookie
+import re
+
+# cookie名称
+cookie_key="SESSDATA"
+# 域名
+domain="bilibili.com"
+
+s = str(browsercookie.chrome())
+regexp = "<Cookie {}=([^>]*?) for \.{}/>".format(cookie_key, domain)
+sso_cookie_value = re.findall(regexp, s)[0]
+print(sso_cookie_value)
+```
+
+将其更通用化
+```shell
+# ~/get_cookie_value.py
+import browsercookie
+import sys
+import re
+
+if __name__ == "__main__":
+    if (len(sys.argv) != 3):
+	    print("error")
+    else:
+        domain = sys.argv[1]
+        cookie_key= sys.argv[2]
+        s = str(browsercookie.chrome())
+        regexp = "<Cookie {}=([^>]*?) for \.{}/>".format(cookie_key, domain)
+        sso_cookie_value = re.findall(regexp, s)[0]
+        msg = sso_cookie_value if sso_cookie_value != '' and sso_cookie_value != None else "error"
+        print(msg)
+
+
+# ~/.bash_rc or ~/.zshrc
+get_cookie_value() {
+    if [ $# -ne 2 ]; then
+	echo error
+    else
+	/usr/bin/python3 ~/get_cookie_value.py $*
+    fi 
+}
+```
+
+
+
+
+
+### 预警监控
+  
+### 简易自动化部署
+  
