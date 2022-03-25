@@ -52,7 +52,7 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
   * [简易自动化部署](#简易自动化部署)
     * [编写Shell脚本](#编写Shell脚本)
     * [搭建一个轻量的Http服务](#搭建一个轻量的Http服务)
-    * [增加Github Webhooks配置](#"增加Github Webhooks配置")
+    * [增加Github Webhooks配置](#增加Github-Webhooks配置)
 * [总结](#总结)
 
 
