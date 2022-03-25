@@ -2,12 +2,15 @@
 
 ## 介绍
 Shell是一种操作系统预先装好的应用程序，人们常说的小黑框、命令行、终端、Terminal等、Windows里的cmd、Powershell都可以简单粗暴的理解为Shell。
-传统的Web应用或桌面应用使用可视化界面作为用户接口，而Shell则让用户通过输入命令的方式去和操作系统交互。
-Shell内置了许多系统命令，使用户可以高效、方便地去访问和分析计算机的文件、磁盘、内存、网络等信息, 同时很多第三方命令行软件也可以通过Shell去调用。
-Shell也是一种解释型的程序设计语言，用户可以通过编写Shell脚本来完成从简单到复杂的工作。目前Shell主要应用领域之一是自动化运维，
-比如通过Shell脚本的方式去自动化软件的构建、部署，比如大数据领域里的很多分布式软件（如Flink、Kafka、Elasticsearch等）通常都是通过"大篇幅"脚本部署。 
-简单来说，很多重复且流程固定的工作可以尝试用Shell脚本来解决，只需要编写一次便能反复利用。
 
+传统的Web应用或桌面应用使用可视化界面作为用户接口，而Shell则让用户通过输入命令的方式去和操作系统交互。
+
+Shell内置了许多系统命令，使用户可以高效、方便地去访问和分析计算机的文件、磁盘、内存、网络等信息, 同时很多第三方命令行软件也可以通过Shell去调用。
+
+Shell也是一种解释型的程序设计语言，用户可以通过编写Shell脚本来完成从简单到复杂的工作。目前Shell主要应用领域之一是自动化运维， 通过Shell脚本可完成软件的自动化构建、部署。
+比如大数据领域里的很多分布式软件（如Flink、Kafka、Elasticsearch等）通常都是通过"大篇幅"脚本部署。 
+
+简单来说，很多重复且流程固定的工作可以尝试用Shell脚本来解决，只需要编写一次便能反复利用。
 对于我们很多人而言，Shell也可以在日常工作中发挥很大的作用。
 本文主要讲述Shell的一些命令的基本使用，并谈谈Shell可以做哪些有趣/有用的事情。
 
@@ -24,12 +27,7 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
         * [sed](#sed)
         * [grep](#grep)
         * [awk](#awk)
-      * [其它命令](#其它命令)
-        * [tail](#tail)
-    * [进程]()
-    * [网络](#网络)
-    * [磁盘](#磁盘)
-    * [内存](#内存)
+    * [其它命令](#其它命令)
 * [命令组合](#命令组合)
     * [管道](#管道)
     * [xargs](#xargs)
@@ -52,7 +50,10 @@ Shell也是一种解释型的程序设计语言，用户可以通过编写Shell�
     * [自动获取Cookie](#自动获取Cookie)
   * [预警监控](#预警监控)
   * [简易自动化部署](#简易自动化部署)
-  * 
+    * [编写Shell脚本](#编写Shell脚本)
+    * [搭建一个轻量的Http服务](#搭建一个轻量的Http服务)
+    * [增加Github Webhooks配置](#增加Github Webhooks配置)
+* [总结](#总结)
 
 
 
@@ -169,8 +170,9 @@ awk -F ',' '{print $2,$3}' 1.csv
 
 当然了，awk的定位其实是一种程序语言，它有很多强大的用法，这里就不展开讲了。
 
-#### 其它命令
-##### tail
+### 其它命令
+ 文件/文本相关的还有很多命令，比如`more`，`less`，`head`, `tail`等。与进程相关的命令：`ps`、`top`，与网络相关的命令: `netstat`、`route`、`traceroute`，
+与磁盘相关的命令: `du`, `df`。 这些命令自己平时用的比较少，这里就不做讲解了。
 
 ## 命令组合
 ### 管道
@@ -219,6 +221,9 @@ alias即别名，类似于C/C++里的宏(Macro)。
 alias python=python3
 alias grep="grep --color=auto"
 alias ga="git add ."
+
+# docker删除所有容器
+alias drm="docker rm -f `docker ps -aq`"
 
 # alias满足不了的话，一般考虑用function
 function cs () {
@@ -360,19 +365,65 @@ if __name__ == "__main__":
 
 # ~/.bash_rc or ~/.zshrc
 get_cookie_value() {
-    if [ $# -ne 2 ]; then
-	echo error
-    else
 	/usr/bin/python3 ~/get_cookie_value.py $*
-    fi 
 }
+
 ```
 
-
-
-
-
 ### 预警监控
-  
+  公司对很多中间件都配备了强大的预警功能，但监控的对象往往是CPU、内存、心跳、磁盘等骗硬件信息，却很难对业务数据做预警。
+比如现在想对Elasticsearch里某个索引的文档数量进行预警（当文档超过一定量时，ES查询性能会下降很多），那么我们就可以写一个简单的Shell脚本，
+通过curl获取数据，对于一些需要身份验证才能访问的接口，可以利用上述方法自动获取Cookie, 最后再结合crontab工具，就完成了一个自动监控的脚本了。
+```shell
+# ~/alert.sh
+count="curl https://abcd.com/elasticsearch/kibana/_count?index=test_index" -H "cookie: sso.cookie=`get_cookie_value abcd.com sso.cookie`"
+if [ $count -ge 3000000000 ]; then
+  alarm #报警
+fi
+
+# crontab
+* * * * * ~/alert.sh
+```
+
 ### 简易自动化部署
-  
+  软件的构建和发布是一件非常重复、耗时的事情，公司一般会使用强大的ci/cd工具来完成构建、测试、提测、测试验证、预发部署、预发验证、上线等完备的流水线。
+市面上有很多常用的ci/cd工具，比如jenkins，它们比较重，使用成本较高，而对于自己的个人项目，我们往往只需要满足一个简单的功能：
+当代码push到仓库后，服务器能够自动拉取代码 + 构建 + 发布，下面就此提供一种比较轻量的解决方案:
+#### 编写Shell脚本
+```shell
+# deploy.sh
+cd ~/Projects/my-app
+git pull
+mvn clean package
+java -jar target/XXXX.jar
+```
+
+#### 搭建一个轻量的Http服务
+使用python的flask框架
+```shell
+# ~/deploy.sh
+import os
+import sys
+from flask import Flask
+
+sys.stdout = open("info.log", 'a+')
+
+app = Flask(__name__)
+
+@app.route('/deploy', methods=['POST'])
+def deploy():
+    code = os.system("~/Shell/deploy.sh")
+    return 'success' if code == 0 else 'fail'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+```
+这样通过POST访问 https://XXXX.com:8080/deploy时，就可以触发自动化部署脚本
+
+#### 增加Github Webhooks配置
+在Github对应的代码仓库里Settings - Webhooks增加上述的POST url, 触发事件为push。
+
+至此，就完成了一个简单的自动化部署工具。
+
+## 总结
+  Shell非常灵活，大到自动化运维，小到帮助个人完成日常的琐事，还有更多有趣/有用的用法等着去挖掘～
