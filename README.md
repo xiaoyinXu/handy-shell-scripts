@@ -1,4 +1,4 @@
-<h1 align="center">handy shell scripts</h1>
+<h1 align="center">handy shell</h1>
 
 ## 介绍
 Shell是一种操作系统预先装好的应用程序，人们常说的小黑框、命令行、终端、Terminal等、Windows里的cmd、Powershell都可以简单粗暴的理解为Shell。
@@ -310,7 +310,7 @@ pandoc README.md -o README.html -s -t revealjs -V theme="white"
 ### curl爬取数据
 curl是一个操作系统内置的命令，常用来发送http请求。对于日常浏览器里访问的数据，如果我们想做整合分析，就可以考虑用curl来"试水"。
 #### chrome技巧
-chrome里面的控制台里，网络-xhr里可以追踪浏览器发送到后端的api http请求，右键请求: copy as curl即可复制一段能直接在Shell里执行的curl脚本。
+chrome的控制台里，网络-xhr里可以追踪浏览器发送到后端的api http请求，右键请求: copy as curl即可复制一段能直接在Shell里执行的curl脚本。
 ![](https://cookie.cdn.bcebos.com/chrome.gif)
 如果你想通过一些编程语言来更灵活地去分析数据，可以去[curl转换代码工具](https://curlconverter.com/)里将curl转换成代码，非常好用。
 ![](https://cookie.cdn.bcebos.com/curl-converter.gif)
