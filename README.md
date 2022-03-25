@@ -270,6 +270,8 @@ cal -m 5
 ![](https://cookie.cdn.bcebos.com/cal.gif)
 
 ### fortune随机打印名言
+`brew install fortune`
+![](https://cookie.cdn.bcebos.com/fortune.gif)
 
 
 ### ici查询单词
