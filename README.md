@@ -199,15 +199,15 @@ xargs也是组合命令的一种方式，它常搭配管道一起使用。上面
 同一个命令通过`命令行参数`和`标准输入`两种方式去使用，表现的功能一般不一样。
 
 如`cat 1.txt`代表的是打印1.txt这个文件的文本，而通过标准输入，则是输入什么打印什么。
---------插图----------
+![](https://cookie.cdn.bcebos.com/cat-p.gif)
 
 如`grep 1.txt`代表的是过滤1.txt文件的文本，而通过标准输入，则是输入一行过滤一行。
---------插图----------
+![](https://cookie.cdn.bcebos.com/grep-p.gif)
 
 而回到xargs，xargs经常结合管道，将管道左边命令的标准输出，作为管道右边命令的`命令行参数`
 ```shell
 # 打印当前目录下所有txt文件的文本信息
-ls | grep '\.txt' |xargs cat
+ls | grep '\.txt' | xargs cat
 
 # 删除当前目录及子目录下所有txt文件。 由于rm不支持标准输入，如果没有xargs，命令将会失效。
 find . -name "*.txt" | xargs rm -rf
@@ -215,6 +215,17 @@ find . -name "*.txt" | xargs rm -rf
 
 ### alias
 alias即别名，类似于C/C++里的宏(Macro)。
+```shell
+alias python=python3
+alias grep="grep --color=auto"
+alias ga="git add ."
+
+# alias满足不了的话，一般考虑用function
+function cs () {
+    cd $1
+    ls
+}
+```
 
 ## crontab定时任务
 crontab是一般类unix操作系统内置的单机定时任务程序，它帮助用户在指定的时间内执行相应的任务。
@@ -295,8 +306,10 @@ pandoc README.md -o README.html -s -t revealjs -V theme="white"
 curl是一个操作系统内置的命令，常用来发送http请求。对于日常浏览器里访问的数据，如果我们想做整合分析，就可以考虑用curl来"试水"。
 #### chrome技巧
 chrome里面的控制台里，网络-xhr里可以追踪浏览器发送到后端的api http请求，右键请求: copy as curl即可复制一段能直接在Shell里执行的curl脚本。
----------插图-----------
-一些http数据请求往往是分页的，那么我们仅仅将分页参数进行微调就能获取相对全的数据。
+![](https://cookie.cdn.bcebos.com/chrome.gif)
+如果你想通过一些编程语言来更灵活地去分析数据，可以去[curl转换代码工具](https://curlconverter.com/)里将curl转换成代码，非常好用。
+![](https://cookie.cdn.bcebos.com/curl-converter.gif)
+
 #### 自动获取Cookie
 很多数据获取是需要身份校验的，而Cookie则是身份校验里最常用的手段。当用户登陆完成某个网站后，服务器向用户浏览器返回set-cookie的response body, 
 浏览器将Cookie储存起来，当下次访问该网站时，自动携带对应的Cookie信息，那么后端服务器就知道访问用户是谁了，一般也就通过身份校验了。
